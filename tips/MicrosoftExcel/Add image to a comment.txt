@@ -1,0 +1,14 @@
+
+> Right-click cell 
+> Insert Comment 
+> right-click on shaded (grey area) on outside of comment box 
+> Format Comment 
+> Colors and Lines 
+> Fill 
+> Color 
+> Fill Effects 
+> Picture 
+> (Browse to picture) 
+> Click OK
+
+Image will appear on hover over.
