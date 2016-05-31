@@ -1,0 +1,14 @@
+1. Create patch file
+   diff -Naur oldFile newFile > file.patch
+   diff -Naur oldDir  new Dir > dir.patch
+   
+2. Apply the patch to old
+   patch -p0 < file.patch
+   patch -p0 < dir.patch
+   
+3. Revert the patch
+   patch -R -p0 < file.patch
+   patch -R -p0 < dir.patch
+   
+tips:
+   The old file/dir must have written permition for apply or revert the patch
