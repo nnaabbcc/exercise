@@ -11,4 +11,4 @@
    patch -R -p0 < dir.patch
    
 tips:
-   The old file/dir must have written permition for apply or revert the patch
+   The old file/dir must have written permition (during do diff) for apply or revert the patch
