@@ -1,0 +1,231 @@
+BODY {
+   font-family: verdana,arial,sans-serif;
+   color: #000000;
+}
+TD {
+   font-family: verdana,arial,sans-serif;
+   font-size: 80%;
+}
+TH {
+   font-family: verdana,arial,sans-serif;
+   font-weight: bold;
+}
+TT {
+   font-family: courier;
+}
+/* small {
+   font-family: arial, sans-serif;
+} */
+HR {
+   height:1px;
+   border-style:solid;
+   border-bottom-width:0;
+   border-color:#444444;
+   padding:0px;
+   margin-bottom:3px;
+   margin-top:3px;
+}
+BLOCKQUOTE {
+   margin-bottom: 5px;
+   margin-top: 5px;
+   margin-left: 20px;
+   padding-top: 0.1em;
+   padding-bottom: 0.1em;
+}
+PRE {
+   margin-bottom: 0.1em;
+   margin-top: 0.1em;
+   font-family: courier, monospace;
+}
+
+A:link {
+    BACKGROUND: none;
+    COLOR: #0000FF;
+    TEXT-DECORATION: none;
+}
+A:visited {
+    BACKGROUND: none;
+    COLOR: #0000FF;
+    TEXT-DECORATION: none;
+}
+A:hover {
+    COLOR: #00CC00;
+    TEXT-DECORATION: underline;
+}
+.news {
+    font-family: verdana, arial, sans-serif;
+}
+.news A:link, .news A:visited { 
+    COLOR: #0000FF;
+    TEXT-DECORATION: underline;
+}
+
+/* low-lit tables - eg, mod queue */
+
+.soft-tbl TD {
+  color: #000000;
+  border: 1px #DDDDFF solid;
+}
+
+.soft-tbl TABLE {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+wiki h1, .wiki h2, .wiki h3, .wiki h4, .wiki h5, .wiki h6 {
+  background: none;
+  font-weight: normal;
+  margin: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.17em;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.wiki h1 { font-size: 188%; }
+.wiki h2 { font-size: 150%; }
+.wiki .wiki h4, .wiki h5, .wiki h6 {
+  border-bottom: none;
+  font-weight: bold;
+}
+.wiki h3 { font-size: 132%; }
+.wiki h4 { font-size: 116%; }
+.wiki h5 { font-size: 100%; }
+.wiki h6 { font-size: 80%;  }
+
+/* front page form hot topics */
+
+.blog_entry {
+	margin-left: 6px;
+}
+
+.blog_description {
+	margin: 4px 0 0 24px;
+}
+
+.blog_byline {
+	text-align: right;
+	margin: 4px 0;
+}
+
+.codetext {
+   font-family: "Courier New", Courier, monospaced;
+   font-size: 0.95em;
+}
+
+.code {
+//        font-size: 0.9em;
+        border-style: dashed;
+        border-color: #FF8080;
+        color: #000000;
+        border-width: 1;
+        background: #D8E8F8 none repeat scroll 0%;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-top: 0.4em;
+        margin-bottom: 0.4em;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        padding-left: 0.5em;
+        -moz-background-clip: initial;
+        -moz-background-origin: initial;
+        -moz-background-inline-policy: initial;
+        overflow: auto;
+        width: auto;
+        min-height: 4em;
+}
+
+.bquote {
+        font-size: 0.9em; 
+        border-style: dotted;
+        
+        color: #000000;
+        border-width: 1;
+        background: #FFFFFF;
+
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-top: 0.6em;
+        margin-bottom: 0.6em;
+
+        padding-top: 0.8em;
+        padding-bottom: 0.8em;
+        padding-left: 1em;
+}
+
+.syntax {
+//        font-size: 0.9em;
+        border-style: inset;
+        border-color: #CCCCCC;
+        border-width: 2;
+        background: #000000;
+        margin-left: 1em;
+        margin-top: 0.1em;
+        margin-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-bottom: 0.5em;
+}
+
+.tabber A:hover {
+    TEXT-DECORATION: none;
+}
+
+.areae A:link, .areae A:visited {
+    BACKGROUND: none;
+    COLOR: #000000;
+    FONT-family: arial, sans-serif;
+    font-size: 12px;
+    TEXT-DECORATION: none;
+}
+.areae A:hover {
+    BACKGROUND: none;
+    COLOR: #000000;
+    TEXT-DECORATION: none;
+}
+
+.navt A:link, .navt A:visited {
+    BACKGROUND: none;
+    COLOR: #000000;
+    FONT-family: arial, sans-serif;
+    font-size: 13px;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+.navt A:hover {
+    TEXT-DECORATION: none;
+    BACKGROUND: #3366FF;
+}
+
+/* not used */
+.tbar A:link, .tbar A:visited, .tbar A:hover {
+    BACKGROUND: none;
+    COLOR: #000080;
+    FONT-family: Geneva, "MS Sans Serif", helvetica;
+    font-size: 12px;
+    TEXT-DECORATION: underline
+}
+
+.mainHeadline A:link, .mainHeadline A:visited {
+    font-family: arial, helvetica, ms sans serif;
+    font-size: medium;
+    font-style: normal;
+    font-weight: bold;
+    color: #0000FF;
+}
+
+.subHeadline A:link, .subHeadline A:visited {
+    font-family: arial, helvetica, ms sans serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    color: #0000FF;
+    text-decoration: none;
+}
+
+TD.uinfo { padding: 8px 0px 0px 10px; }
+
+.cmd-links A:link, .cmd-links A:visited {
+    BACKGROUND: none;
+    COLOR: #0033FF;
+    TEXT-DECORATION: none;
+}
