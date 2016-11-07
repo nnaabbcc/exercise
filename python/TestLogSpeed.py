@@ -1,4 +1,5 @@
-# _*_ coding:utf-8 _*_
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 
 import math
 import matplotlib.pyplot as plt

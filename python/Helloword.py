@@ -1,4 +1,5 @@
-# _*_ coding: utf-8 _*_
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 # This is demo for Hello word, not Hello World. just kidding
 # 一些中文的注释也是可以用的
 

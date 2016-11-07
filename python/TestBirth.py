@@ -1,4 +1,5 @@
-# _*_ coding:utf-8 _*_
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
 
 # 1- P(N,n) / pow(N, n)
 # N : days, 365/366
