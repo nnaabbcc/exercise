@@ -1,6 +1,7 @@
 
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+
 class MyMainWindow(QMainWindow):
 
     def __init__(self):

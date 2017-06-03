@@ -2,6 +2,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 from PyQt5.QtCore import pyqtSlot
 
+
 class MyWidget(QWidget):
 
     def __init__(self):

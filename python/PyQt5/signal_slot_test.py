@@ -1,6 +1,7 @@
 
 from PyQt5.QtWidgets import (QApplication, QVBoxLayout, QDialog,
-        QPushButton)
+                             QPushButton)
+
 
 class MyDialog(QDialog):
 
@@ -25,4 +26,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     myDialog = MyDialog()
     sys.exit(myDialog.exec_())
-        

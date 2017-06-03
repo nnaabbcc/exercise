@@ -1,5 +1,6 @@
 
-from PyQt5.QtWidgets import QWidget, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
+
 
 class MyWidget(QWidget):
 
@@ -47,51 +48,50 @@ class MyWidget(QWidget):
             print('Cancel button clicked')
 
     def click_slot_3(self):
-        buttonReply = QMessageBox.information(self, 'PyQt5 message', 'Button demo!', QMessageBox.Cancel | QMessageBox.Ok | QMessageBox.Help | QMessageBox.Open | QMessageBox.Save | QMessageBox.SaveAll | QMessageBox.Discard | QMessageBox.Close | QMessageBox.Apply | QMessageBox.Reset | QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.No | QMessageBox.NoToAll | QMessageBox.NoButton | QMessageBox.RestoreDefaults | QMessageBox.Abort | QMessageBox.Retry | QMessageBox.Ignore, QMessageBox.Cancel)
-        if buttonReply == QMessageBox.Cancel:
+        button_reply = QMessageBox.information(self, 'PyQt5 message', 'Button demo!', QMessageBox.Cancel | QMessageBox.Ok | QMessageBox.Help | QMessageBox.Open | QMessageBox.Save | QMessageBox.SaveAll | QMessageBox.Discard | QMessageBox.Close | QMessageBox.Apply | QMessageBox.Reset | QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.No | QMessageBox.NoToAll | QMessageBox.NoButton | QMessageBox.RestoreDefaults | QMessageBox.Abort | QMessageBox.Retry | QMessageBox.Ignore, QMessageBox.Cancel)
+        if button_reply == QMessageBox.Cancel:
             print('Cancel clicked')
-        elif buttonReply == QMessageBox.Ok:
+        elif button_reply == QMessageBox.Ok:
             print('Ok clicked')
-        elif buttonReply == QMessageBox.Help:
+        elif button_reply == QMessageBox.Help:
             print('Help clicked')
-        elif buttonReply == QMessageBox.Open:
+        elif button_reply == QMessageBox.Open:
             print('Open clicked')
-        elif buttonReply == QMessageBox.Save:
+        elif button_reply == QMessageBox.Save:
             print('Save clicked')
-        elif buttonReply == QMessageBox.SaveAll:
+        elif button_reply == QMessageBox.SaveAll:
             print('SaveAll clicked')
-        elif buttonReply == QMessageBox.Discard:
+        elif button_reply == QMessageBox.Discard:
             print('Discard clicked')
-        elif buttonReply == QMessageBox.Close:
+        elif button_reply == QMessageBox.Close:
             print('Close clicked')
-        elif buttonReply == QMessageBox.Apply:
+        elif button_reply == QMessageBox.Apply:
             print('Apply clicked')
-        elif buttonReply == QMessageBox.Reset:
+        elif button_reply == QMessageBox.Reset:
             print('Reset clicked')
-        elif buttonReply == QMessageBox.Yes:
+        elif button_reply == QMessageBox.Yes:
             print('Yes clicked')
-        elif buttonReply == QMessageBox.YesToAll:
+        elif button_reply == QMessageBox.YesToAll:
             print('YesToAll clicked')
-        elif buttonReply == QMessageBox.No:
+        elif button_reply == QMessageBox.No:
             print('No clicked')
-        elif buttonReply == QMessageBox.NoToAll:
+        elif button_reply == QMessageBox.NoToAll:
             print('NoToAll clicked')
-        elif buttonReply == QMessageBox.NoButton:
+        elif button_reply == QMessageBox.NoButton:
             print('NoButton clicked')
-        elif buttonReply == QMessageBox.RestoreDefaults:
+        elif button_reply == QMessageBox.RestoreDefaults:
             print('RestoreDefaults clicked')
-        elif buttonReply == QMessageBox.Abort:
+        elif button_reply == QMessageBox.Abort:
             print('Abort clicked')
-        elif buttonReply == QMessageBox.Retry:
+        elif button_reply == QMessageBox.Retry:
             print('Retry clicked')
-        elif buttonReply == QMessageBox.Ignore:
+        elif button_reply == QMessageBox.Ignore:
             print('Ignore clicked')
         else:
             print('Unknown button clicked')
 
 
 if __name__ == '__main__':
-    from PyQt5.QtWidgets import QApplication
     import sys
     app = QApplication(sys.argv)
 
