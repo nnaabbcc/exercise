@@ -32,6 +32,18 @@ class MyWidget(QWidget):
         self.table_widget.setItem(0, 0, QTableWidgetItem('Cell Item (0, 0)'))
         self.table_widget.setItem(0, 1, QTableWidgetItem('Cell Item (0, 1)'))
         self.table_widget.setItem(1, 0, QTableWidgetItem('Cell Item (1, 0)'))
+        self.table_widget.setItem(1, 1, QTableWidgetItem('Cell Item (1, 1)'))
+        self.table_widget.setItem(2, 0, QTableWidgetItem('Cell Item (2, 0)'))
+        self.table_widget.setItem(2, 1, QTableWidgetItem('Cell Item (2, 1)'))
+        self.table_widget.setItem(3, 0, QTableWidgetItem('Cell Item (3, 0)'))
+        self.table_widget.setItem(3, 1, QTableWidgetItem('Cell Item (3, 1)'))
+
+        self.table_widget.doubleClicked.connect(self.on_double_click)
+
+    def on_double_click(self):
+        print('\n')
+        for item in self.table_widget.selectedItems():
+            print(item.row(), item.column(), item.text())
 
 
 if __name__ == '__main__':
