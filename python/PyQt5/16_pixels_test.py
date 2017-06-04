@@ -19,6 +19,11 @@ class MyWidget(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
 
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), Qt.white)
+        self.setPalette(p)
+
         layout = QVBoxLayout()
         canvas = MyPaintWidget(self)
         layout.addWidget(canvas)
