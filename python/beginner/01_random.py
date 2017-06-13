@@ -1,4 +1,6 @@
 
+from __future__ import print_function
+
 import random
 
 # Generate a pseudo-random number between 0 and 1.
