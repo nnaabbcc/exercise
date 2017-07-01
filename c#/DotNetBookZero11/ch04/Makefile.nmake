@@ -2,11 +2,25 @@
 all: FirstProgram.exe HelloWorld.exe
 
 FirstProgram.exe: FirstProgram.cs
-    csc FirstProgram.cs
+    @csc FirstProgram.cs
+
+dasm:
+    @if not exist FirstProgram.exe ECHO Please build FirstProgram.exe firstly.
+    @if exist FirstProgram.exe ildasm FirstProgram.exe /out=FirstProgram.il
+    @Echo disassemble FirstProgram.exe completed.
+
+asm:
+    @if not exist FirstProgram.il ECHO Please Disassemble FirstProgram.exe firstly
+    @if exist FirstProgram.il ilasm FirstProgram.il /OUTPUT=FirstProgram2.exe
 
 HelloWorld.exe: HelloWorld.il
     ilasm HelloWorld.il
 
 clean: 
-    if exist FirstProgram.exe del FirstProgram.exe
-    if exist HelloWorld.exe del HelloWorld.exe
+    @if exist FirstProgram.il del FirstProgram.il
+    @if exist FirstProgram.res del FirstProgram.res
+    @if exist FirstProgram.exe del FirstProgram.exe
+    @if exist FirstProgram2.exe del FirstProgram2.exe
+    @if exist HelloWorld.exe del HelloWorld.exe
+    @Echo Clean successfully
+
