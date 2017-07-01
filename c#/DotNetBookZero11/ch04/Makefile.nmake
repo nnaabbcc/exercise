@@ -4,8 +4,8 @@ all: FirstProgram.exe HelloWorld.exe
 FirstProgram.exe: FirstProgram.cs
     csc FirstProgram.cs
 
-HelloWorld.exe: HelloWorld.cil
-    ilasm HelloWorld.cil
+HelloWorld.exe: HelloWorld.il
+    ilasm HelloWorld.il
 
 clean: 
     if exist FirstProgram.exe del FirstProgram.exe
