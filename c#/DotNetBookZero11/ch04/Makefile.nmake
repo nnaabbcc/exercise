@@ -1,0 +1,12 @@
+
+all: FirstProgram.exe HelloWorld.exe
+
+FirstProgram.exe: FirstProgram.cs
+    csc FirstProgram.cs
+
+HelloWorld.exe: HelloWorld.cil
+    ilasm HelloWorld.cil
+
+clean: 
+    if exist FirstProgram.exe del FirstProgram.exe
+    if exist HelloWorld.exe del HelloWorld.exe
