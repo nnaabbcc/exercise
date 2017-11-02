@@ -19,5 +19,22 @@ int main(int, char**)
         std::cout << key << " smaller than 10" << std::endl;
     }
     // std::cout << key; // key is not available here
+    
+    switch (std::string key="a"; get_value(key))
+    {
+    case 1:
+        std::cout << "get_value return 1";
+        break;
+    case 10:
+        std::cout << "get_value return 10";
+        break;
+    case 100:
+        std::cout << "get_value return 100";
+        break;
+    default:
+        std::cout << "get_value return an unknown value";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
