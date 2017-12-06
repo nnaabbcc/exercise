@@ -1,4 +1,5 @@
 
+#include <map>
 #include <vector>
 #include <iostream>
 
@@ -30,17 +31,40 @@ std::vector<int> insert_sort(std::vector<int> arr)
     return arr;
 }
 
+std::vector<int> bubble_sort(std::vector<int> arr)
+{
+    for (int i = 0; i < arr.size(); i++)
+    {
+        for (int j = i + 1; j < arr.size(); j++)
+        {
+            if (arr[i] > arr[j])
+            {
+                auto tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+    }
+    return arr;
+}
+
 int main(int, char**)
 {
     std::vector<int> arr {3, 8, 21, 6, 4, 79, 231, 1};
+    std::cout << "array to be sorted : ";
     print_array(arr);
 
-    const std::vector<sort_method_ptr_t> sort_methods {insert_sort};
-    for (auto sort_method : sort_methods)
+    const std::map<std::string, sort_method_ptr_t> sort_methods {
+        {"insert_sort", insert_sort},
+        {"bubble_sort", bubble_sort}
+    };
+    for (auto& item: sort_methods)
     {
-        auto sorted_array = sort_method(arr);
+        std::cout << item.first.c_str() << " : ";
+        auto sorted_array = item.second(arr);
         print_array(sorted_array);
     }
 
     return 0;
 }
+
