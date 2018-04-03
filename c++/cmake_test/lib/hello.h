@@ -1,0 +1,5 @@
+
+namespace hello
+{
+    void say();
+}
