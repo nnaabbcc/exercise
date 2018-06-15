@@ -15,3 +15,5 @@
   ![](BuildSuccess_01.png)  
   ![](BuildSuccess_02.png)  
   ![](BuildSuccess_03.png)  
+  Now, we could see the build success now.  
+  
