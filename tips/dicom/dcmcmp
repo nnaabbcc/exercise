@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ $# != 2 ]
+then
+    echo "usage: `basename $0` file1 file2"
+    exit 1
+fi
+
+TMPFILE1=/tmp/`basename $0`.$$.tmp1
+TMPFILE2=/tmp/`basename $1`.$$.tmp2
+
+dcmdump -q -dc "$1" > "$TMPFILE1" 2>&1
+dcmdump -q -dc "$2" > "$TMPFILE2" 2>&1
+
+# diff -a "$TMPFILE1" "$TMPFILE2"
+vimdiff "$TMPFILE1" "$TMPFILE2"
+
+rm "$TMPFILE1" "$TMPFILE2"
+
+exit 0
