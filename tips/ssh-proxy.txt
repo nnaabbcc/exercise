@@ -1,0 +1,1 @@
+ssh -f -N -D 1080 admin@server1.example.com
