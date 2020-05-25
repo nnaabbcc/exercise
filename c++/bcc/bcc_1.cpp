@@ -1,0 +1,30 @@
+
+#include <iostream>
+#include <iomanip>
+
+static uint8_t bcc(uint8_t* data, uint8_t seed, size_t size)
+{
+    uint8_t sum = seed;
+    for (size_t i = 0; i < size; i++)
+    {
+        sum ^= data[i];
+    }
+    return sum;
+}
+
+
+int main(int argc, char** argv)
+{
+    // uint8_t arr[] = {0x02, 0x00, 0x00, 0x02, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x63, 0x24};
+    // uint8_t arr[] = {0x02, 0x00, 0x00, 0x02, 0x02, 0x04, 0x00, 0x03, 0x21, 0x0F};
+    // uint8_t arr[] = {0x02, 0x00, 0x00, 0x02, 0x80, 0x06, 0x08, 0x3F, 0x4C, 0x80, 0x4C, 0x80, 0x4D, 0x3F, 0x4C, 0x80, 0x4C, 0x80, 0x4D, 0x80};
+    uint8_t arr[] = {0x10, 0x01};
+    auto size = sizeof(arr);
+
+    auto sum = bcc(arr, 0x00, sizeof(arr));
+    std::cout << std::hex << std::setfill('0') << std::setw(2) << +sum << std::endl;
+
+    return 0;
+}
+
+// FF 02 00 00 02 00 08 00 00 00 00 00 00 63 24 4F FE FF 02 00 00 02 02 04 00 03 21 0F 2B FE 

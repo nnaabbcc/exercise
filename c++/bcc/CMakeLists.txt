@@ -11,3 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(bcc
     bcc.cpp
 )
+
+add_executable(bcc_1
+    bcc_1.cpp
+)
