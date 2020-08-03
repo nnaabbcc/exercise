@@ -28,6 +28,7 @@ int read_file(std::string filename)
         std::cout << "Frame " << i << std::endl;
         auto posFrames = cap.get(cv::CAP_PROP_POS_FRAMES);
         std::cout << "Pos Frames: " << posFrames << std::endl;
+
         cap.read(frame);
         if (frame.empty())
         {
@@ -35,7 +36,12 @@ int read_file(std::string filename)
             break;
         }
 
-        imshow(filename, frame);
+        auto text = std::to_string(static_cast<int>(posFrames)) + "/"
+            + std::to_string(static_cast<int>(framecount));
+        cv::putText(frame, text,
+            {20, 50}, cv::FONT_HERSHEY_SIMPLEX, 2, {255, 255, 0});
+
+        cv::imshow(filename, frame);
         int ms = 25;
         if (fps < 1000)
         {
@@ -79,7 +85,7 @@ int read_camera()
             break;
         }
 
-        imshow(windowName, frame);
+        cv::imshow(windowName, frame);
         if (cv::waitKey(5) >= 0)
         {
             break;
