@@ -8,6 +8,10 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
+#include <thread>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #pragma comment(lib, "OneCoreUAP.lib")
 
@@ -1402,7 +1406,7 @@ void dumpDevNode(DEVINST devInst, std::ostream& os, Indent indent)
     }
 }
 
-int main(int argc, char** argv)
+int listDeviceTree(int argc, char**argv)
 {
     std::string filePath = "device_tree.txt";
     if (argc > 1)
@@ -1425,4 +1429,78 @@ int main(int argc, char** argv)
     }
 
     return 0;
+}
+
+int monitorDevice(std::string deviceInstanceId,
+    std::string folder)
+{
+    while (true)
+    {
+        DEVINST devInst;
+        auto cr = CM_Locate_DevNodeA(&devInst,
+            const_cast<DEVINSTID_A>(deviceInstanceId.c_str()),
+            CM_LOCATE_DEVNODE_PHANTOM);
+        if (cr == CR_SUCCESS)
+        {
+            if (folder.empty())
+            {
+                dumpDevNode(devInst, std::cout, Indent());
+            }
+            else
+            {
+                SYSTEMTIME st;
+                GetLocalTime(&st);
+                std::stringstream ss;
+                ss  << std::setfill('0')
+                    << std::setw(2) << st.wYear
+                    << "-"
+                    << std::setw(2) << st.wMonth
+                    << "-"
+                    << std::setw(2) << st.wDay
+                    << " "
+                    << std::setw(2) << st.wHour
+                    << "-"
+                    << std::setw(2) << st.wMinute
+                    << "-"
+                    << std::setw(2) << st.wSecond
+                    << "."
+                    << std::setw(3) << st.wMilliseconds
+                    << ".txt";
+                auto filePath = fs::path(folder) / ss.str();
+                filePath = filePath.make_preferred().lexically_normal();
+                std::ofstream out(filePath);
+                dumpDevNode(devInst, out, Indent());
+            }
+        }
+        else
+        {
+            std::cout << "Failed to locate dev node of "
+                << deviceInstanceId << std::endl;
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    return 0;
+}
+
+int monitorDevice(int argc, char** argv)
+{
+    std::string deviceUUid = "urn:uuid:564e4335-3832-3136-3534-3024a95f205d";
+    if (argc >= 2)
+    {
+        deviceUUid = argv[1];
+    }
+    auto deviceInstanceId = "SWD\\DAFWSDPROVIDER\\" + deviceUUid;
+    std::string folder;
+    if (argc > 2)
+    {
+        folder = argv[2];
+    }
+
+    return monitorDevice(deviceInstanceId, folder);
+}
+
+int main(int argc, char** argv)
+{
+    // return listDeviceTree(argc, argv);
+    return monitorDevice(argc, argv);
 }
