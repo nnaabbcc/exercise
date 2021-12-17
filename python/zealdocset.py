@@ -320,7 +320,7 @@ def list_docsets_remote(cachefile):
             if key in ['icon', 'icon2x']:
                 pass
             elif key == 'extra':
-                print('  extra:')
+                print('  ', 'extra:')
                 for k in d['extra']:
                     print('    ', k + ':', d['extra'][k])
             else:
