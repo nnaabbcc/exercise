@@ -6,4 +6,5 @@ add_executable(${module_name}
 
 set_target_properties(${module_name} PROPERTIES
     DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX}
+    CUDA_ARCHITECTURES all
 )
