@@ -2,3 +2,32 @@
 
 如：git config --global core.quotepath false
 
+当git遇上中文乱码
+git有个比较奇怪的问题，当目录或者文件名中出现了中文的时候，在执行git status 的时候，会返回一串unicode码，这段unicode码就读不懂了，必须解决。
+
+git status显示unicode/乱码
+$ git status
+untracked file :
+    "\346\265\213\350\257\225/"
+解决方法：
+$ git config --global core.quotepath false
+$ git status
+untracked file :
+    测试/文件.md
+解惑：
+core.quotepath的作用是控制路径是否编码显示的选项。当路径中的字符大于0x80的时候，如果设置为true，转义显示；设置为false，不转义。
+
+git commit log 中乱码
+windows平台上面的问题比linux上面要更多。
+
+$ git config --global gui.encoding utf-8
+
+$ git config --global i18n.commitEncoding utf-8
+
+$ git config --global gui.logOutputEncoding utf-8
+以上基本可全部解决。
+
+windows平台显示乱码
+右键gitbash 选中“Options(选项)"-"text".设置下面的locale为 zh_CN，Character Set 为UTF-8。
+强烈推荐全部选用UTF-8,少用GBK。
+
