@@ -1,5 +1,3 @@
-#include <filesystem>
-#include <iostream>
 #include <QGuiApplication>
 #include <QApplication>
 #include <QQmlApplicationEngine>
@@ -39,320 +37,312 @@
 
 namespace
 {
-struct MyVtkItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-  };
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
 
-    // Create a cone pipeline and add it to the view
-    vtkNew<vtkRenderer> renderer;
-    vtkNew<vtkActor> actor;
-    vtkNew<vtkPolyDataMapper> mapper;
-    vtkNew<vtkConeSource> cone;
-    renderWindow->AddRenderer(renderer);
-    mapper->SetInputConnection(cone->GetOutputPort());
-    actor->SetMapper(mapper);
-    renderer->AddActor(actor);
-    renderer->ResetCamera();
-    renderer->SetBackground2(0.7, 0.7, 0.7);
-    renderer->SetGradientBackground(true);
-
-    return vtk;
-  }
-};
-vtkStandardNewMacro(MyVtkItem::Data);
-
-struct MyConeItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-  };
-
-  void onEndEvent(vtkObject* caller, unsigned long, void*)
-  {
-    vtkRenderWindow* renderWindow = vtkRenderWindow::SafeDownCast(caller);
-    renderWindow->GetRenderers()->GetFirstRenderer()->ResetCamera();
-    renderWindow->RemoveObserver(this->endEventTag);
-    this->scheduleRender();
-  }
-
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
-
-    // Create a cone pipeline and add it to the view
-    vtkNew<vtkRenderer> renderer;
-    vtkNew<vtkActor> actor;
-    vtkNew<vtkPolyDataMapper> mapper;
-    vtkNew<vtkConeSource> cone;
-    renderWindow->AddRenderer(renderer);
-    mapper->SetInputConnection(cone->GetOutputPort());
-    actor->SetMapper(mapper);
-    renderer->AddActor(actor);
-    renderer->ResetCamera();
-    renderer->SetBackground2(0.7, 0.7, 0.7);
-    renderer->SetGradientBackground(true);
-
-    endEventTag = renderWindow->AddObserver(vtkCommand::EndEvent, this, &MyConeItem::onEndEvent);
-
-    return vtk;
-  }
-
-  unsigned long endEventTag;
-};
-vtkStandardNewMacro(MyConeItem::Data);
-
-/*=========================================================================*/
-
-struct MyWidgetItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-
-    vtkNew<vtkImplicitPlaneWidget2> planeWidget;
-  };
-
-  struct Callback
-  {
-    void Execute(vtkObject*, unsigned long evt, void*)
+    struct MyVtkItem : QQuickVTKItem
     {
-      if (evt == vtkCommand::InteractionEvent)
-      {
-        this->Rep->GetPlane(this->Plane);
-        this->Actor->VisibilityOn();
-      }
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
+        };
 
-      if (evt == vtkCommand::EndEvent)
-      {
-        // Once the application is up, adjust the camera, widget reps, etc.
-        this->Renderer->ResetCamera();
-        this->Rep->SetPlaceFactor(1.25);
-        this->Rep->PlaceWidget(this->Glyph->GetOutput()->GetBounds());
-        this->Renderer->GetActiveCamera()->Azimuth(20);
-        this->Renderer->GetRenderWindow()->RemoveObserver(this->EndEventTag);
-        this->pThis->scheduleRender();
-      }
-    }
-    Callback()
-      : Plane(nullptr)
-      , Actor(nullptr)
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
+            // Create a cone pipeline and add it to the view
+           vtkNew<vtkRenderer> renderer;
+           vtkNew<vtkActor> actor;
+           vtkNew<vtkPolyDataMapper> mapper;
+           vtkNew<vtkConeSource> cone;
+           renderWindow->AddRenderer(renderer);
+           mapper->SetInputConnection(cone->GetOutputPort());
+           actor->SetMapper(mapper);
+           renderer->AddActor(actor);
+           renderer->ResetCamera();
+           renderer->SetBackground2(0.7, 0.7, 0.7);
+           renderer->SetGradientBackground(true);
+           return vtk;
+        }
+    };
+    vtkStandardNewMacro(MyVtkItem::Data);
+
+    struct MyConeItem : QQuickVTKItem
     {
-    }
-    vtkPlane* Plane;
-    vtkActor* Actor;
-    vtkGlyph3D* Glyph;
-    vtkRenderer* Renderer;
-    vtkImplicitPlaneRepresentation* Rep;
-    MyWidgetItem* pThis;
-    unsigned long EndEventTag;
-  };
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
+        };
 
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
+        void onEndEvent(vtkObject *caller, unsigned long, void *)
+        {
+            vtkRenderWindow *renderWindow = vtkRenderWindow::SafeDownCast(caller);
+            renderWindow->GetRenderers()->GetFirstRenderer()->ResetCamera();
+            renderWindow->RemoveObserver(this->endEventTag);
+            this->scheduleRender();
+        }
 
-    vtkNew<vtkRenderer> renderer;
-    renderWindow->AddRenderer(renderer);
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
 
-    // Create a mace out of filters.
-    //
-    vtkNew<vtkSphereSource> sphere;
-    vtkNew<vtkGlyph3D> glyph;
-    vtkNew<vtkConeSource> cone;
-    glyph->SetInputConnection(sphere->GetOutputPort());
-    glyph->SetSourceConnection(cone->GetOutputPort());
-    glyph->SetVectorModeToUseNormal();
-    glyph->SetScaleModeToScaleByVector();
-    glyph->SetScaleFactor(0.25);
+            // Create a cone pipeline and add it to the view
+            vtkNew<vtkRenderer> renderer;
+            vtkNew<vtkActor> actor;
+            vtkNew<vtkPolyDataMapper> mapper;
+            vtkNew<vtkConeSource> cone;
+            renderWindow->AddRenderer(renderer);
+            mapper->SetInputConnection(cone->GetOutputPort());
+            actor->SetMapper(mapper);
+            renderer->AddActor(actor);
+            renderer->ResetCamera();
+            renderer->SetBackground2(0.7, 0.7, 0.7);
+            renderer->SetGradientBackground(true);
 
-    // The sphere and spikes are appended into a single polydata.
-    // This just makes things simpler to manage.
-    vtkNew<vtkAppendPolyData> apd;
-    apd->AddInputConnection(glyph->GetOutputPort());
-    apd->AddInputConnection(sphere->GetOutputPort());
+            endEventTag = renderWindow->AddObserver(vtkCommand::EndEvent, this, &MyConeItem::onEndEvent);
 
-    vtkNew<vtkPolyDataMapper> maceMapper;
-    maceMapper->SetInputConnection(apd->GetOutputPort());
+            return vtk;
+        }
 
-    vtkNew<vtkActor> maceActor;
-    maceActor->SetMapper(maceMapper);
-    maceActor->VisibilityOn();
+        unsigned long endEventTag;
+    };
+    vtkStandardNewMacro(MyConeItem::Data);
 
-    // This portion of the code clips the mace with the vtkPlanes
-    // implicit function. The clipped region is colored green.
-    vtkNew<vtkPlane> plane;
-    vtkNew<vtkClipPolyData> clipper;
-    clipper->SetInputConnection(apd->GetOutputPort());
-    clipper->SetClipFunction(plane);
-    clipper->InsideOutOn();
+    struct MyWidgetItem : QQuickVTKItem
+    {
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
 
-    vtkNew<vtkPolyDataMapper> selectMapper;
-    selectMapper->SetInputConnection(clipper->GetOutputPort());
+            vtkNew<vtkImplicitPlaneWidget2> planeWidget;
+        };
 
-    vtkNew<vtkActor> selectActor;
-    selectActor->SetMapper(selectMapper);
-    selectActor->GetProperty()->SetColor(0, 1, 0);
-    selectActor->VisibilityOff();
-    selectActor->SetScale(1.01, 1.01, 1.01);
+        struct Callback
+        {
+            void Execute(vtkObject *, unsigned long evt, void *)
+            {
+                if (evt == vtkCommand::InteractionEvent)
+                {
+                    this->Rep->GetPlane(this->Plane);
+                    this->Actor->VisibilityOn();
+                }
 
-    vtkNew<vtkImplicitPlaneRepresentation> rep;
+                if (evt == vtkCommand::EndEvent)
+                {
+                    // Once the application is up, adjust the camera, widget reps, etc.
+                    this->Renderer->ResetCamera();
+                    this->Rep->SetPlaceFactor(1.25);
+                    this->Rep->PlaceWidget(this->Glyph->GetOutput()->GetBounds());
+                    this->Renderer->GetActiveCamera()->Azimuth(20);
+                    this->Renderer->GetRenderWindow()->RemoveObserver(this->EndEventTag);
+                    this->pThis->scheduleRender();
+                }
+            }
 
-    // The SetInteractor method is how 3D widgets are associated with the render
-    // window interactor. Internally, SetInteractor sets up a bunch of callbacks
-    // using the Command/Observer mechanism (AddObserver()).
-    myCallback.Plane = plane;
-    myCallback.Actor = selectActor;
-    myCallback.Glyph = glyph;
-    myCallback.Rep = rep;
-    myCallback.Renderer = renderer;
-    myCallback.pThis = this;
+            Callback()
+            : Plane(nullptr), Actor(nullptr)
+            {
+            }
 
-    vtk->planeWidget->SetRepresentation(rep);
-    vtk->planeWidget->AddObserver(vtkCommand::InteractionEvent, &myCallback, &Callback::Execute);
-    myCallback.EndEventTag = renderer->GetRenderWindow()->AddObserver(
-      vtkCommand::EndEvent, &myCallback, &Callback::Execute);
-    auto iren = renderWindow->GetInteractor();
-    vtk->planeWidget->SetInteractor(iren);
-    vtk->planeWidget->SetCurrentRenderer(renderer);
-    vtk->planeWidget->SetEnabled(1);
-    vtk->planeWidget->SetProcessEvents(1);
+            vtkPlane *Plane;
+            vtkActor *Actor;
+            vtkGlyph3D *Glyph;
+            vtkRenderer *Renderer;
+            vtkImplicitPlaneRepresentation *Rep;
+            MyWidgetItem *pThis;
+            unsigned long EndEventTag;
+        };
 
-    renderer->AddActor(maceActor);
-    renderer->AddActor(selectActor);
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
 
-    return vtk;
-  }
+            vtkNew<vtkRenderer> renderer;
+            renderWindow->AddRenderer(renderer);
 
-  Callback myCallback;
-};
-vtkStandardNewMacro(MyWidgetItem::Data);
+            // Create a mace out of filters.
+            //
+            vtkNew<vtkSphereSource> sphere;
+            vtkNew<vtkGlyph3D> glyph;
+            vtkNew<vtkConeSource> cone;
+            glyph->SetInputConnection(sphere->GetOutputPort());
+            glyph->SetSourceConnection(cone->GetOutputPort());
+            glyph->SetVectorModeToUseNormal();
+            glyph->SetScaleModeToScaleByVector();
+            glyph->SetScaleFactor(0.25);
 
-/*=========================================================================*/
+            // The sphere and spikes are appended into a single polydata.
+            // This just makes things simpler to manage.
+            vtkNew<vtkAppendPolyData> apd;
+            apd->AddInputConnection(glyph->GetOutputPort());
+            apd->AddInputConnection(sphere->GetOutputPort());
 
-struct MyGeomItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-  };
+            vtkNew<vtkPolyDataMapper> maceMapper;
+            maceMapper->SetInputConnection(apd->GetOutputPort());
 
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
+            vtkNew<vtkActor> maceActor;
+            maceActor->SetMapper(maceMapper);
+            maceActor->VisibilityOn();
 
-    // Create a cone pipeline and add it to the view
-    vtkNew<vtkRenderer> renderer;
-    vtkNew<vtkActor> actor;
-    vtkNew<vtkPolyDataMapper> mapper;
-    vtkNew<vtkConeSource> cone;
-    renderWindow->AddRenderer(renderer);
-    mapper->SetInputConnection(cone->GetOutputPort());
-    actor->SetMapper(mapper);
-    renderer->AddActor(actor);
-    renderer->ResetCamera();
+            // This portion of the code clips the mace with the vtkPlanes
+            // implicit function. The clipped region is colored green.
+            vtkNew<vtkPlane> plane;
+            vtkNew<vtkClipPolyData> clipper;
+            clipper->SetInputConnection(apd->GetOutputPort());
+            clipper->SetClipFunction(plane);
+            clipper->InsideOutOn();
 
-    return vtk;
-  }
-};
-vtkStandardNewMacro(MyGeomItem::Data);
+            vtkNew<vtkPolyDataMapper> selectMapper;
+            selectMapper->SetInputConnection(clipper->GetOutputPort());
 
-/*=========================================================================*/
+            vtkNew<vtkActor> selectActor;
+            selectActor->SetMapper(selectMapper);
+            selectActor->GetProperty()->SetColor(0, 1, 0);
+            selectActor->VisibilityOff();
+            selectActor->SetScale(1.01, 1.01, 1.01);
 
-struct MyVolumeItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-  };
+            vtkNew<vtkImplicitPlaneRepresentation> rep;
 
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
+            // The SetInteractor method is how 3D widgets are associated with the render
+            // window interactor. Internally, SetInteractor sets up a bunch of callbacks
+            // using the Command/Observer mechanism (AddObserver()).
+            myCallback.Plane = plane;
+            myCallback.Actor = selectActor;
+            myCallback.Glyph = glyph;
+            myCallback.Rep = rep;
+            myCallback.Renderer = renderer;
+            myCallback.pThis = this;
 
-    vtkNew<vtkRenderer> renderer;
-    renderWindow->AddRenderer(renderer);
+            vtk->planeWidget->SetRepresentation(rep);
+            vtk->planeWidget->AddObserver(vtkCommand::InteractionEvent, &myCallback, &Callback::Execute);
+            myCallback.EndEventTag = renderer->GetRenderWindow()->AddObserver(
+                vtkCommand::EndEvent, &myCallback, &Callback::Execute);
+            auto iren = renderWindow->GetInteractor();
+            vtk->planeWidget->SetInteractor(iren);
+            vtk->planeWidget->SetCurrentRenderer(renderer);
+            vtk->planeWidget->SetEnabled(1);
+            vtk->planeWidget->SetProcessEvents(1);
 
-    // Create a volume pipeline and add it to the view
-    vtkNew<vtkSmartVolumeMapper> volumeMapper;
-    vtkNew<vtkXMLImageDataReader> reader;
-    const char* volumeFile = "vase_1comp.vti";
-    reader->SetFileName(volumeFile);
-    reader->Update();
-    volumeMapper->SetInputConnection(reader->GetOutputPort());
-    double scalarRange[2];
-    volumeMapper->GetInput()->GetScalarRange(scalarRange);
-    volumeMapper->SetAutoAdjustSampleDistances(1);
-    volumeMapper->SetBlendModeToComposite();
-    vtkNew<vtkPiecewiseFunction> scalarOpacity;
-    scalarOpacity->AddPoint(scalarRange[0], 0.0);
-    scalarOpacity->AddPoint(scalarRange[1], 0.09);
-    vtkNew<vtkVolumeProperty> volumeProperty;
-    volumeProperty->ShadeOff();
-    volumeProperty->SetInterpolationType(VTK_LINEAR_INTERPOLATION);
-    volumeProperty->SetScalarOpacity(scalarOpacity);
-    vtkSmartPointer<vtkColorTransferFunction> colorTransferFunction =
-      volumeProperty->GetRGBTransferFunction(0);
-    colorTransferFunction->RemoveAllPoints();
-    colorTransferFunction->AddRGBPoint(scalarRange[0], 0.6, 0.4, 0.1);
-    // colorTransferFunction->AddRGBPoint(scalarRange[1], 0.2, 0.1, 0.3);
-    vtkSmartPointer<vtkVolume> volume = vtkSmartPointer<vtkVolume>::New();
-    volume->SetMapper(volumeMapper);
-    volume->SetProperty(volumeProperty);
-    renderer->AddVolume(volume);
-    renderer->ResetCamera();
+            renderer->AddActor(maceActor);
+            renderer->AddActor(selectActor);
 
-    return vtk;
-  }
-};
-vtkStandardNewMacro(MyVolumeItem::Data);
+            return vtk;
+        }
 
-/*=========================================================================*/
+        Callback myCallback;
+    };
+    vtkStandardNewMacro(MyWidgetItem::Data);
 
-struct MyGlyphItem : QQuickVTKItem
-{
-  struct Data : vtkObject
-  {
-    static Data* New();
-    vtkTypeMacro(Data, vtkObject);
-  };
+    struct MyGeomItem : QQuickVTKItem
+    {
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
+        };
 
-  vtkUserData initializeVTK(vtkRenderWindow* renderWindow) override
-  {
-    auto vtk = vtkNew<Data>();
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
 
-    vtkNew<vtkRenderer> renderer;
-    renderWindow->AddRenderer(renderer);
+            // Create a cone pipeline and add it to the view
+            vtkNew<vtkRenderer> renderer;
+            vtkNew<vtkActor> actor;
+            vtkNew<vtkPolyDataMapper> mapper;
+            vtkNew<vtkConeSource> cone;
+            renderWindow->AddRenderer(renderer);
+            mapper->SetInputConnection(cone->GetOutputPort());
+            actor->SetMapper(mapper);
+            renderer->AddActor(actor);
+            renderer->ResetCamera();
 
-    // Create the glyph pipeline
-    vtkNew<vtkSphereSource> sphere;
-    vtkNew<vtkGlyph3DMapper> glyphMapper;
-    vtkNew<vtkConeSource> squad;
-    glyphMapper->SetInputConnection(sphere->GetOutputPort());
-    glyphMapper->SetSourceConnection(squad->GetOutputPort());
-    glyphMapper->SetOrientationArray("Normals");
-    vtkNew<vtkActor> glyphActor;
-    glyphActor->SetMapper(glyphMapper);
-    glyphActor->GetProperty()->SetDiffuseColor(0.5, 1.0, 0.8);
-    renderer->AddActor(glyphActor);
-    renderer->ResetCamera();
+            return vtk;
+        }
+    };
+    vtkStandardNewMacro(MyGeomItem::Data);
 
-    return vtk;
-  }
-};
-vtkStandardNewMacro(MyGlyphItem::Data);
+    struct MyVolumeItem : QQuickVTKItem
+    {
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
+        };
 
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
+
+            vtkNew<vtkRenderer> renderer;
+            renderWindow->AddRenderer(renderer);
+
+            // Create a volume pipeline and add it to the view
+            vtkNew<vtkSmartVolumeMapper> volumeMapper;
+            vtkNew<vtkXMLImageDataReader> reader;
+            const char *volumeFile = "vase_1comp.vti";
+            reader->SetFileName(volumeFile);
+            reader->Update();
+            volumeMapper->SetInputConnection(reader->GetOutputPort());
+            double scalarRange[2];
+            volumeMapper->GetInput()->GetScalarRange(scalarRange);
+            volumeMapper->SetAutoAdjustSampleDistances(1);
+            volumeMapper->SetBlendModeToComposite();
+            vtkNew<vtkPiecewiseFunction> scalarOpacity;
+            scalarOpacity->AddPoint(scalarRange[0], 0.0);
+            scalarOpacity->AddPoint(scalarRange[1], 0.09);
+            vtkNew<vtkVolumeProperty> volumeProperty;
+            volumeProperty->ShadeOff();
+            volumeProperty->SetInterpolationType(VTK_LINEAR_INTERPOLATION);
+            volumeProperty->SetScalarOpacity(scalarOpacity);
+            vtkSmartPointer<vtkColorTransferFunction> colorTransferFunction =
+                volumeProperty->GetRGBTransferFunction(0);
+            colorTransferFunction->RemoveAllPoints();
+            colorTransferFunction->AddRGBPoint(scalarRange[0], 0.6, 0.4, 0.1);
+            // colorTransferFunction->AddRGBPoint(scalarRange[1], 0.2, 0.1, 0.3);
+            vtkSmartPointer<vtkVolume> volume = vtkSmartPointer<vtkVolume>::New();
+            volume->SetMapper(volumeMapper);
+            volume->SetProperty(volumeProperty);
+            renderer->AddVolume(volume);
+            renderer->ResetCamera();
+
+            return vtk;
+        }
+    };
+    vtkStandardNewMacro(MyVolumeItem::Data);
+
+    struct MyGlyphItem : QQuickVTKItem
+    {
+        struct Data : vtkObject
+        {
+            static Data *New();
+            vtkTypeMacro(Data, vtkObject);
+        };
+
+        vtkUserData initializeVTK(vtkRenderWindow *renderWindow) override
+        {
+            auto vtk = vtkNew<Data>();
+
+            vtkNew<vtkRenderer> renderer;
+            renderWindow->AddRenderer(renderer);
+
+            // Create the glyph pipeline
+            vtkNew<vtkSphereSource> sphere;
+            vtkNew<vtkGlyph3DMapper> glyphMapper;
+            vtkNew<vtkConeSource> squad;
+            glyphMapper->SetInputConnection(sphere->GetOutputPort());
+            glyphMapper->SetSourceConnection(squad->GetOutputPort());
+            glyphMapper->SetOrientationArray("Normals");
+            vtkNew<vtkActor> glyphActor;
+            glyphActor->SetMapper(glyphMapper);
+            glyphActor->GetProperty()->SetDiffuseColor(0.5, 1.0, 0.8);
+            renderer->AddActor(glyphActor);
+            renderer->ResetCamera();
+
+            return vtk;
+        }
+    };
+    vtkStandardNewMacro(MyGlyphItem::Data);
 }
 
 void registerTypes()
@@ -375,7 +365,7 @@ void registerTypes()
     qmlRegisterType<MyVolumeItem>(uri, 1, 0, "MyVolumeItem");
 }
 
-int main1(int argc, char** argv)
+int main1(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKRenderWindow::setupGraphicsBackend();
@@ -383,13 +373,13 @@ int main1(int argc, char** argv)
 
     QQmlApplicationEngine engine("qrc:/main1.qml");
 
-    QObject* topLevel = engine.rootObjects().value(0);
-    QQuickWindow* window = qobject_cast<QQuickWindow*>(topLevel);
+    QObject *topLevel = engine.rootObjects().value(0);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     window->show();
 
     {
         // Fetch the QQuick window using the standard object name set up in the constructor
-        QQuickVTKRenderItem* qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem*>("ConeView");
+        QQuickVTKRenderItem *qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem *>("ConeView");
 
         // Create a cone pipeline and add it to the view
         vtkNew<vtkActor> actor;
@@ -406,7 +396,7 @@ int main1(int argc, char** argv)
     }
 
     {
-        QQuickVTKRenderItem* qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem*>("ImageView");
+        QQuickVTKRenderItem *qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem *>("ImageView");
         vtkNew<vtkImageSlice> actor;
         vtkNew<vtkImageSliceMapper> mapper;
         vtkNew<vtkDICOMReader> reader;
@@ -432,7 +422,7 @@ int main1(int argc, char** argv)
     return app.exec();
 }
 
-int main2(int argc, char** argv)
+int main2(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKRenderWindow::setupGraphicsBackend();
@@ -445,7 +435,7 @@ int main2(int argc, char** argv)
     auto topLevel = view->rootObject();
 
     {
-        QQuickVTKRenderItem* qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem*>("ImageView");
+        QQuickVTKRenderItem *qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem *>("ImageView");
         qquickvtkItem->setAcceptHoverEvents(false);
 
         vtkNew<vtkImageSlice> actor;
@@ -485,8 +475,7 @@ int main2(int argc, char** argv)
     return app.exec();
 }
 
-
-int main3(int argc, char** argv)
+int main3(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKRenderWindow::setupGraphicsBackend();
@@ -499,7 +488,7 @@ int main3(int argc, char** argv)
     auto topLevel = view->rootObject();
 
     {
-        QQuickVTKRenderItem* qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem*>("ImageView");
+        QQuickVTKRenderItem *qquickvtkItem = topLevel->findChild<QQuickVTKRenderItem *>("ImageView");
         vtkNew<vtkImageSlice> actor;
         vtkNew<vtkImageSliceMapper> mapper;
         vtkNew<vtkDICOMReader> reader;
@@ -526,7 +515,7 @@ int main3(int argc, char** argv)
     return app.exec();
 }
 
-int main4(int argc, char** argv)
+int main4(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKRenderWindow::setupGraphicsBackend();
@@ -538,7 +527,7 @@ int main4(int argc, char** argv)
     view->show();
 
     auto topLevel = view->rootObject();
-    auto items = topLevel->findChildren<QQuickVTKRenderItem*>("ImageView");
+    auto items = topLevel->findChildren<QQuickVTKRenderItem *>("ImageView");
     for (int i = 0; i < items.size(); i++)
     {
         auto qquickvtkItem = items[i];
@@ -546,7 +535,7 @@ int main4(int argc, char** argv)
         vtkNew<vtkImageSliceMapper> mapper;
         vtkNew<vtkDICOMReader> reader;
         vtkNew<vtkImageMapToWindowLevelColors> wl;
-        reader->SetFileName(QString("%1.dcm").arg(i+1).toLocal8Bit().data());
+        reader->SetFileName(QString("%1.dcm").arg(i + 1).toLocal8Bit().data());
         reader->Update();
 
         auto data = reader->GetOutput();
@@ -568,7 +557,7 @@ int main4(int argc, char** argv)
     return app.exec();
 }
 
-int main5(int argc, char**argv)
+int main5(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKItem::setGraphicsApi();
@@ -583,7 +572,7 @@ int main5(int argc, char**argv)
     return app.exec();
 }
 
-int main6(int argc, char**argv)
+int main6(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKItem::setGraphicsApi();
@@ -598,7 +587,7 @@ int main6(int argc, char**argv)
     return app.exec();
 }
 
-int main7(int argc, char**argv)
+int main7(int argc, char **argv)
 {
     registerTypes();
     QQuickVTKItem::setGraphicsApi();
@@ -613,10 +602,8 @@ int main7(int argc, char**argv)
     return app.exec();
 }
 
-int main(int argc, char**argv)
+int main(int argc, char **argv)
 {
-    auto current_path = std::filesystem::current_path();
-    std::cout << current_path << std::endl;
     // return main1(argc, argv);
     // return main2(argc, argv);
     // return main3(argc, argv);
