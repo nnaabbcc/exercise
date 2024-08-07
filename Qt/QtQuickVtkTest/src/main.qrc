@@ -4,5 +4,8 @@
         <file>main2.qml</file>
         <file>main3.qml</file>
         <file>main4.qml</file>
+        <file>main5.qml</file>
+        <file>main6.qml</file>
+        <file>main7.qml</file>
     </qresource>
 </RCC>

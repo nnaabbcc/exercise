@@ -15,3 +15,5 @@ target_link_libraries(${module_name} PRIVATE
 )
 
 set_target_properties(${module_name} PROPERTIES DEBUG_POSTFIX _d)
+
+vtk_module_autoinit(TARGETS ${module_name} MODULES VTK::RenderingVolumeOpenGL2)
