@@ -1,3 +1,5 @@
+#include <filesystem>
+#include <iostream>
 #include <QGuiApplication>
 #include <QApplication>
 #include <QQmlApplicationEngine>
@@ -611,9 +613,10 @@ int main7(int argc, char**argv)
     return app.exec();
 }
 
-
 int main(int argc, char**argv)
 {
+    auto current_path = std::filesystem::current_path();
+    std::cout << current_path << std::endl;
     // return main1(argc, argv);
     // return main2(argc, argv);
     // return main3(argc, argv);
